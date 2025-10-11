@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akira Masaoka</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Noto+Serif+JP:wght@200..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+        /* グローバルスタイル */
+        body {
+            font-family: 'Libre Caslon Text', sans-serif;
+            background-color: #f5f5f5;
+            color: #24140e;
+        }
+
+        .font-libre-caslon-text {
+            font-family: 'Libre Caslon Text', serif;
+        }
+
+        /* スムーズなスクロールを有効にする */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* コンテナ */
+        .container {
+            max-width: 960px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        /* ヘッダー */
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        header nav a {
+            color: #24140e;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        header nav a:hover {
+            color: #24140e;
+        }
+
+        /* セクションタイトル */
+        h2 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        /* PROFILE セクション */
+        #profile .profile-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            text-align: left;
+        }
+        #profile .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* WORKS セクション */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .works-grid .work-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .works-grid .work-item p {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* CONTACT セクション */
+        #contact .contact-info a {
+            color: #24140e;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        #contact .contact-info a:hover {
+            color: #24140e;
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* レスポンシブ対応 */
+        @media(max-width: 600px) {
+            #profile .profile-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+       /* --- WORKS Horizontal Scroller --- */
+       .scroller-container {
+          overflow-x: auto; /* 横スクロールを可能にする */
+          cursor: grab; /* ドラッグできることを示すカーソル */
+          -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+          mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+       /* スクロールバーを非表示にする */
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* IE */
+  }
+   .scroller-content {
+       display: flex; /* 画像を横並びにする */
+       width: max-content; /* コンテンツ全体の幅を確保 */
+   }
+
+   .scroller-content img {
+        height: 200px; /* 画像の高さを統一 */
+        width: auto;
+        margin-right: 20px; /* 画像の間の余白 */
+        flex-shrink: 0; /* 画像が縮まないようにする */
+    }
+    
+    /* 画像拡大モーダルのためのCSS */
+    .modal {
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+    .modal.visible {
+        opacity: 1;
+        visibility: visible;
+}
+    .modal-content {
+        display: block;
+        max-width: 90%;
+        max-height: 85vh;
+        animation: zoomIn 0.3s ease-out;
+}
+    @keyframes zoomIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+}
+    .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #24140e;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+}
+    .modal-close:hover {
+        color: #24140e;
+}
+</style>
+
+</head>
+<body class="bg-#24140e font-libre-caslon-text">
+    <main>
+        <section id="profile" class="py-20 px-4 md:px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-2xl mb-6 tracking-wider">PROFILE</h2>
+                <div class="text-sm text-center leading-relaxed space-y-3">
+                    <div>
+                        <p>Born in Brazil and currently live in Tokyo.<br>
+                           I have been studying photography on my own as a hobby, and started working as a professional photographer in 2025.<br>
+                           <br> 
+                           ブラジル生まれ、東京都在住。
+                           趣味として独学でカメラを学び、2025年より本格的にフォトグラファーとして始動。<br>
+                           好きな食べ物はカレー、スパイス系の料理、ルーローファン、ドーナツ、レモンのチーズケーキ、シナモンロール、かぼちゃなど。<br>
+                           苦手な食べ物は生魚、生玉ねぎ、ニンニク(少量なら可)。匂いや音に敏感。<br>
+                           チャイを作るのが得意。基本的にメルヘン思考。また、ポルトガル語は話せるがサンバは踊れない。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="works" class="py-20 px-4 md:px-6>
+            <div class="max-w-4xl mx-auto container text-center">
+              <h2 class="text-2xl mb-6 tracking-wider text-center">WORKS</h2>
+              <div class="text-sm text-center leading-relaxed space-y-3">
+                
+                <div class="scroller-container">
+                <div class="scroller-content">
+                <img src="images/IMGP3584.JPG" class="gallery-image">
+                <img src="images/IMGP3796.JPG" class="gallery-image">
+                <img src="images/IMGP3770.JPG" class="gallery-image">
+                <img src="images/_DSC0601.JPG" class="gallery-image">
+                <img src="images/_DSC0617.JPG" class="gallery-image">
+                <img src="images/_DSC0530.JPG" class="gallery-image">
+                <img src="images/_DSC0683.JPG" class="gallery-image">
+                <img src="images/428002_265832706828796_61973240_n_265832706828796.JPG" class="gallery-image">
+                <img src="images/430598_266205463458187_219040040_n_266205463458187.JPG" class="gallery-image">
+                <img src="images/64664_265754876836579_5273670_n_265754876836579.JPG" class="gallery-image">
+                <img src="images/424091_265832213495512_1075708625_n_265832213495512.JPG" class="gallery-image">
+                <img src="images/430618_266210040124396_1845522529_n_266210040124396.JPG" class="gallery-image">
+                <img src="images/423421_266211966790870_463642133_n_266211966790870.JPG" class="gallery-image">
+                <img src="images/DSC_0203.JPG" class="gallery-image">
+                <img src="images/DSC_0218.JPG" class="gallery-image">
+                <img src="images/DSC_0258.JPG" class="gallery-image">
+                <img src="images/DSC_0425.JPG" class="gallery-image">
+                <img src="images/DSC_0256.JPG" class="gallery-image">
+                <img src="images/_DSC1157.JPG" class="gallery-image">
+                <img src="images/_DSC1173.JPG" class="gallery-image">
+                <img src="images/_DSC1187.JPG" class="gallery-image">
+                <img src="images/DSC_0326.JPG" class="gallery-image">
+                <img src="images/_DSC1107.JPG" class="gallery-image">
+                <img src="images/_DSC1306.JPG" class="gallery-image">
+                <img src="images/_DSC1070.JPG" class="gallery-image">
+                
+                <img src="images/IMGP3584.JPG" class="gallery-image">
+                <img src="images/IMGP3796.JPG" class="gallery-image">
+                <img src="images/IMGP3770.JPG" class="gallery-image">
+                <img src="images/_DSC0601.JPG" class="gallery-image">
+                <img src="images/_DSC0617.JPG" class="gallery-image">
+                <img src="images/_DSC0530.JPG" class="gallery-image">
+                <img src="images/_DSC0683.JPG" class="gallery-image">
+                <img src="images/428002_265832706828796_61973240_n_265832706828796.JPG" class="gallery-image">
+                <img src="images/430598_266205463458187_219040040_n_266205463458187.JPG" class="gallery-image">
+                <img src="images/64664_265754876836579_5273670_n_265754876836579.JPG" class="gallery-image">
+                <img src="images/424091_265832213495512_1075708625_n_265832213495512.JPG" class="gallery-image">
+                <img src="images/430618_266210040124396_1845522529_n_266210040124396.JPG" class="gallery-image">
+                <img src="images/423421_266211966790870_463642133_n_266211966790870.JPG" class="gallery-image">
+                <img src="images/DSC_0203.JPG" class="gallery-image">
+                <img src="images/DSC_0218.JPG" class="gallery-image">
+                <img src="images/DSC_0258.JPG" class="gallery-image">
+                <img src="images/DSC_0425.JPG" class="gallery-image">
+                <img src="images/DSC_0256.JPG" class="gallery-image">
+                <img src="images/_DSC1157.JPG" class="gallery-image">
+                <img src="images/_DSC1173.JPG" class="gallery-image">
+                <img src="images/_DSC1187.JPG" class="gallery-image">
+                <img src="images/DSC_0326.JPG" class="gallery-image">
+                <img src="images/_DSC1107.JPG" class="gallery-image">
+                <img src="images/_DSC1306.JPG" class="gallery-image">
+                <img src="images/_DSC1070.JPG" class="gallery-image">
+                </div>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 px-4 md:px-6>
+            <div class="max-w-4xl mx-auto text-center">
+              <h2 class="text-2xl mb-6 tracking-wider text-center">CONTACT</h2>
+              <div class="text-sm text-center leading-relaxed space-y-3">
+                  <p>撮影のご依頼・ご相談はこちらまでお気軽にご連絡ください。</p>
+              <div class="contact-info">
+                <p>Email: <a href="mailto:your-email@example.com">your-email@example.com</a>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                    <a href="https://www.instagram.com/akira__masaoka/" target="_blank" rel="noopener noreferrer" class="inline-block">
+                        <img
+                        src="images/Instagram_Glyph_Gradient.png"
+                        alt="instafram"
+                        class="h-8 w-8"
+                        />
+                    </a>
+                </p>
+              </div>
+              </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Akira Masaoka. All Rights Reserved.</p>
+    </footer>
+    <div id="imageModal" class="modal">
+      <span class="modal-close">&times;</span>
+      <img class="modal-content" id="modalImage">
+    </div>
+
+<script>
+    /* ========== 画像拡大モーダル機能 ========== */
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.modal-close');
+    const galleryImages = document.querySelectorAll('.gallery-image');
+
+    const openModal = (e) => {
+    // ドラッグ操作による意図しないクリックを防ぐ
+        if (isDragging) return; 
+        modal.classList.add('visible');
+        modalImg.src = e.target.src;
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('visible');
+    };
+
+    galleryImages.forEach(img => {
+        img.addEventListener('click', openModal);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) {
+            closeModal();
+        }
+    });
+
+    /* ========== 自動＆手動スクロール機能 ========== */
+    const scroller = document.querySelector('.scroller-container');
+    let animationFrameId;
+    let isHovering = false;
+    let isDragging = false;
+
+    function autoScroll() {
+        if (!isHovering && !isDragging) {
+            scroller.scrollLeft += 0.5;
+            if (scroller.scrollLeft >= scroller.scrollWidth / 2) {
+                scroller.scrollLeft = 0;
+            }
+        }
+        animationFrameId = requestAnimationFrame(autoScroll);
+    }
+
+    scroller.addEventListener('mouseenter', () => {
+        isHovering = true;
+    });
+    scroller.addEventListener('mouseleave', () => {
+        isHovering = false;
+    });
+
+    let startX;
+    let scrollLeft;
+
+    scroller.addEventListener('mousedown', (e) => {
+        isDragging = false; // クリック開始時にリセット
+        isHovering = true; // ドラッグ中は自動スクロールを確実に停止
+        scroller.style.cursor = 'grabbing';
+        startX = e.pageX - scroller.offsetLeft;
+        scrollLeft = scroller.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+        isHovering = false;
+        scroller.style.cursor = 'grab';
+        // 少しでもドラッグしていたら isDragging を true にしてクリックを防ぐ
+        setTimeout(() => { isDragging = false; }, 50); 
+    });
+
+    scroller.addEventListener('mousemove', (e) => {
+        if (!isHovering || e.buttons !== 1) return; // マウスが押されている時だけ
+        isDragging = true; // mousemoveが発火したらドラッグとみなす
+        e.preventDefault();
+        const x = e.pageX - scroller.offsetLeft;
+        const walk = (x - startX) * 2;
+        scroller.scrollLeft = scrollLeft - walk;
+    });
+
+    autoScroll();
+</script>
+</body>
+</body>
+</html>
