@@ -22,21 +22,26 @@
         .top-title {
         /* clamp(最小サイズ, 可変サイズ, 最大サイズ) */
         font-size: clamp(24px, 5vw, 50px);
-  
         /* 文字を中央揃えにする */
         text-align: center;
-        }
-        /* トップ画像用のセレクタ*/
-        .top-image {
-        width: 80vw; /* 画面の横幅の80%に設定 */
-        max-width: 600px; /* PCで画像が大きくなりすぎるのを防ぐ上限値 */
-        height: auto;   /* 縦横比を維持 */
+
+        /* ↓↓↓↓ この行を追記 ↓↓↓↓ */
+        margin-bottom: 2rem; /* タイトルと画像の間に余白を追加 (1rem = 約16px) */
+       }
+
+      .top-image {
+      width: 80vw; /* 画面の横幅の80%に設定 */
+      max-width: 600px; /* PCで画像が大きくなりすぎるのを防ぐ上限値 */
+      height: auto;   /* 縦横比を維持 */
   
-        /* 画像を中央揃えにするための設定 */
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        }
+      /* ↓↓↓↓ この行を追記 ↓↓↓↓ */
+      max-height: 50vh; /* 画像の高さを画面の高さの50%までに制限 */
+
+      /* 画像を中央揃えにするための設定 */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+     }
     
         .splash-container {
           height: 100%;
@@ -92,6 +97,7 @@
 </body>
 
 </html>
+
 
 
 
