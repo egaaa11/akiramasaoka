@@ -1,94 +1,698 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akira Masaoka - Top</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Noto+Serif+JP:wght@200..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            font-family: 'Libre Caslon Text', sans-serif;
-            background-color: #f5f5f5;
-            color: #24140e;
-            overflow: hidden; /* スクロールバーを非表示 */
-        }
-        .splash-container {
-          height: 100%;
-          display: flex;
-          flex-direction: column; /* 要素を縦に並べる */
-          justify-content: center; /* 上下中央揃え */
-          align-items: center; /* 左右中央揃え */
-          padding: 1rem;
-          box-sizing: border-box;
-        }
-        .splash-container a {
-            display: block;
-            width: 100%;
-            max-width: 100%; /* 画像の最大幅を画面の100%に設定 */
-            height: auto;
-            cursor: pointer;
-            animation: topImageFadeIn 1.8s ease-out forwards;
-        }
-        .splash-container img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Akira Masaoka — Photographer based in Tokyo." />
+  <title>Akira Masaoka — Photographer</title>
 
-        @keyframes topImageFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    
-    /* タイトル用のCSSクラス */
-.fade-in-title {
-  animation: titleFadeIn 1.5s ease-out forwards;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Libre+Caslon+Display&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
 
-/* タイトル用のアニメーション定義 */
-@keyframes titleFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-    </style>
+  <style>
+    :root {
+      --bg: #f2f0eb;
+      --ink: #1e1c19;
+      --muted: #77736c;
+      --line: rgba(30, 28, 25, 0.18);
+      --page: min(1280px, calc(100vw - 64px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      mix-blend-mode: difference;
+      color: #fff;
+      pointer-events: none;
+    }
+
+    .site-header a,
+    .site-header nav {
+      pointer-events: auto;
+    }
+
+    .brand {
+      font-family: "Libre Caslon Display", serif;
+      font-size: 18px;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .nav a {
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .35s ease;
+    }
+
+    .nav a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #161616;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .92;
+      transform: scale(1.025);
+      animation: heroReveal 1.8s cubic-bezier(.2,.7,.2,1) both;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.12)),
+        linear-gradient(to top, rgba(0,0,0,.22), transparent 36%);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 2;
+      color: white;
+      text-align: center;
+      padding: 0 20px;
+      opacity: 0;
+      animation: titleReveal 1.2s .35s ease forwards;
+    }
+
+    .hero-title h1 {
+      margin: 0;
+      font-family: "Libre Caslon Display", serif;
+      font-size: clamp(48px, 8vw, 124px);
+      line-height: .92;
+      font-weight: 400;
+      letter-spacing: -.035em;
+    }
+
+    .hero-title p {
+      margin: 18px 0 0;
+      font-size: 10px;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      z-index: 2;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.85);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    .section {
+      width: var(--page);
+      margin-inline: auto;
+      padding: 150px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      margin-bottom: 80px;
+    }
+
+    .section-index {
+      font-size: 9px;
+      letter-spacing: .16em;
+      color: var(--muted);
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: clamp(48px, 9vw, 140px);
+      align-items: start;
+    }
+
+    .profile-lead {
+      max-width: 580px;
+      font-family: "Libre Caslon Display", serif;
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -.025em;
+    }
+
+    .profile-copy {
+      max-width: 560px;
+      font-size: 13px;
+      line-height: 2.05;
+      letter-spacing: .025em;
+    }
+
+    .profile-copy .en {
+      margin-bottom: 32px;
+      color: #45413c;
+    }
+
+    .works-section {
+      width: 100%;
+      padding: 150px 0;
+    }
+
+    .works-section .section-head {
+      width: var(--page);
+      margin-inline: auto;
+    }
+
+    .gallery {
+      width: min(1500px, calc(100vw - 32px));
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: clamp(10px, 1.4vw, 22px);
+      align-items: start;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: #ddd8d0;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.2,.7,.2,1), filter .5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.018);
+    }
+
+    .gallery-item:nth-child(8n+1) {
+      grid-column: 1 / span 7;
+      aspect-ratio: 4 / 3;
+    }
+
+    .gallery-item:nth-child(8n+2) {
+      grid-column: 9 / span 4;
+      aspect-ratio: 3 / 4;
+      margin-top: 9vw;
+    }
+
+    .gallery-item:nth-child(8n+3) {
+      grid-column: 2 / span 4;
+      aspect-ratio: 3 / 4;
+      margin-top: 3vw;
+    }
+
+    .gallery-item:nth-child(8n+4) {
+      grid-column: 7 / span 6;
+      aspect-ratio: 4 / 3;
+      margin-top: 8vw;
+    }
+
+    .gallery-item:nth-child(8n+5) {
+      grid-column: 1 / span 5;
+      aspect-ratio: 1 / 1;
+      margin-top: 5vw;
+    }
+
+    .gallery-item:nth-child(8n+6) {
+      grid-column: 7 / span 4;
+      aspect-ratio: 3 / 4;
+      margin-top: 1vw;
+    }
+
+    .gallery-item:nth-child(8n+7) {
+      grid-column: 3 / span 7;
+      aspect-ratio: 16 / 10;
+      margin-top: 8vw;
+    }
+
+    .gallery-item:nth-child(8n+8) {
+      grid-column: 9 / span 4;
+      aspect-ratio: 3 / 4;
+      margin-top: 4vw;
+    }
+
+    .contact-wrap {
+      min-height: 72vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-message {
+      max-width: 860px;
+      font-family: "Libre Caslon Display", serif;
+      font-size: clamp(42px, 7vw, 96px);
+      line-height: .98;
+      letter-spacing: -.04em;
+    }
+
+    .contact-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      padding-top: 80px;
+    }
+
+    .contact-note {
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .instagram-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 7px;
+    }
+
+    footer {
+      width: var(--page);
+      margin-inline: auto;
+      padding: 24px 0 34px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity .9s cubic-bezier(.2,.7,.2,1),
+        transform .9s cubic-bezier(.2,.7,.2,1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      background: rgba(16, 15, 14, .94);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+
+    .modal.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal img {
+      max-width: min(92vw, 1500px);
+      max-height: 88vh;
+      object-fit: contain;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: white;
+      font: inherit;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @keyframes heroReveal {
+      from { opacity: 0; transform: scale(1.08); }
+      to { opacity: .92; transform: scale(1.025); }
+    }
+
+    @keyframes titleReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 800px) {
+      :root {
+        --page: calc(100vw - 36px);
+      }
+
+      .site-header {
+        padding: 20px 18px;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .nav {
+        gap: 14px;
+        font-size: 8px;
+      }
+
+      .hero-title h1 {
+        font-size: clamp(48px, 16vw, 82px);
+      }
+
+      .section,
+      .works-section {
+        padding: 100px 0;
+      }
+
+      .section-head {
+        grid-template-columns: 48px 1fr;
+        gap: 16px;
+        margin-bottom: 52px;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 52px;
+      }
+
+      .profile-lead {
+        max-width: 90%;
+      }
+
+      .gallery {
+        width: calc(100vw - 24px);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .gallery-item,
+      .gallery-item:nth-child(n) {
+        grid-column: auto;
+        margin-top: 0;
+      }
+
+      .gallery-item:nth-child(4n+1),
+      .gallery-item:nth-child(4n+4) {
+        grid-column: 1 / -1;
+        aspect-ratio: 4 / 3;
+      }
+
+      .gallery-item:nth-child(4n+2),
+      .gallery-item:nth-child(4n+3) {
+        aspect-ratio: 3 / 4;
+      }
+
+      .contact-wrap {
+        min-height: 62vh;
+      }
+
+      .contact-bottom {
+        display: block;
+      }
+
+      .instagram-link {
+        margin-top: 36px;
+      }
+
+      footer {
+        display: block;
+        line-height: 1.8;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <main class="splash-container">
-    <div class="text-center">
-        <h1 class="text-1xl md:text-3xl font-Libre Caslon Text tracking-widest mb-3 fade-in-title">
-            Akira Masaoka
-        </h1>
-    </div>
-    
-    <a href="main.html" style="width: 60%;">
-        <img 
-            src="images/IMGP3584.JPG"
-            alt="Enter site - Exterior of a gallery"
-            class="w-full h-auto object-contain"
-        />
-    </a>
-　　</main>
+  <header class="site-header">
+    <a class="brand" href="#top">Akira Masaoka</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#profile">Profile</a>
+      <a href="#works">Works</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top" aria-label="Akira Masaoka">
+      <img
+        class="hero-image"
+        src="images/IMGP3584.JPG"
+        alt="Akira Masaoka photography"
+      >
+      <div class="hero-title">
+        <h1>Akira<br>Masaoka</h1>
+        <p>Photographer · Tokyo</p>
+      </div>
+      <a class="hero-scroll" href="#profile">Scroll</a>
+    </section>
+
+    <section class="section" id="profile">
+      <div class="section-head reveal">
+        <span class="section-index">01</span>
+        <h2 class="section-title">Profile</h2>
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-lead reveal">
+          Photography rooted in curiosity, sensitivity and everyday life.
+        </div>
+
+        <div class="profile-copy reveal">
+          <div class="en">
+            Born in Brazil and currently based in Tokyo.
+            I have been studying photography independently as a hobby,
+            and started working as a professional photographer in 2025.
+          </div>
+
+          <div class="ja">
+            ブラジル生まれ、東京都在住。趣味として独学でカメラを学び、
+            2025年より本格的にフォトグラファーとして始動。<br><br>
+            好きな食べ物はカレー、スパイス系の料理、ルーローファン、
+            ドーナツ、レモンのチーズケーキ、シナモンロール、かぼちゃなど。<br>
+            苦手な食べ物は生魚、生玉ねぎ、ニンニク（少量なら可）。<br>
+            チャイを作るのが得意。匂いや音に敏感でメルヘン思考。<br>
+            また、ポルトガル語は話せるがサンバは踊れない。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="works-section" id="works">
+      <div class="section-head reveal">
+        <span class="section-index">02</span>
+        <h2 class="section-title">Selected Works</h2>
+      </div>
+
+      <div class="gallery">
+        <figure class="gallery-item reveal"><img src="images/IMGP3796.JPG" alt="Photograph 01" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/IMGP3770.JPG" alt="Photograph 02" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC0617.JPG" alt="Photograph 03" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC0530.JPG" alt="Photograph 04" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC0683.JPG" alt="Photograph 05" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/428002_265832706828796_61973240_n_265832706828796.JPG" alt="Photograph 06" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/430598_266205463458187_219040040_n_266205463458187.JPG" alt="Photograph 07" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/64664_265754876836579_5273670_n_265754876836579.JPG" alt="Photograph 08" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/424091_265832213495512_1075708625_n_265832213495512.JPG" alt="Photograph 09" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/423421_266211966790870_463642133_n_266211966790870.JPG" alt="Photograph 10" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC_0218.JPG" alt="Photograph 11" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC_0258.JPG" alt="Photograph 12" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC1171.JPG" alt="Photograph 13" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC1074~3.JPG" alt="Photograph 14" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC1107.JPG" alt="Photograph 15" loading="lazy"></figure>
+        <figure class="gallery-item reveal"><img src="images/DSC1306.JPG" alt="Photograph 16" loading="lazy"></figure>
+      </div>
+    </section>
+
+    <section class="section contact-wrap" id="contact">
+      <div>
+        <div class="section-head reveal">
+          <span class="section-index">03</span>
+          <h2 class="section-title">Contact</h2>
+        </div>
+
+        <div class="contact-message reveal">
+          Let’s make<br>something together.
+        </div>
+      </div>
+
+      <div class="contact-bottom reveal">
+        <div class="contact-note">
+          撮影のご依頼・ご相談は<br>
+          Instagramよりお気軽にご連絡ください。
+        </div>
+
+        <a
+          class="instagram-link"
+          href="https://www.instagram.com/akira__masaoka/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram ↗
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2025 Akira Masaoka. All Rights Reserved.</span>
+    <span>Photographer · Tokyo</span>
+  </footer>
+
+  <div class="modal" id="imageModal" aria-hidden="true">
+    <button class="modal-close" type="button" aria-label="Close">×</button>
+    <img id="modalImage" src="" alt="">
+  </div>
+
+  <script>
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    const modal = document.getElementById("imageModal");
+    const modalImage = document.getElementById("modalImage");
+    const modalClose = document.querySelector(".modal-close");
+
+    document.querySelectorAll(".gallery-item img").forEach((img) => {
+      img.addEventListener("click", () => {
+        modalImage.src = img.src;
+        modalImage.alt = img.alt;
+        modal.classList.add("visible");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove("visible");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    modalClose.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
 </body>
 </html>
-
-
-
-
