@@ -593,10 +593,19 @@
       }
 
       .hero-frame {
-        top: 104px;
-        right: 18px;
-        width: calc(100vw - 64px);
-        height: 60vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        right: auto;
+
+        width: calc(100vw - 40px);
+        height: auto;
+        aspect-ratio: 16 / 9;
+
+        transform: translate(-50%, -50%);
+
+        overflow: hidden;
+        background: var(--bg-soft);
       }
 
       .hero-title {
@@ -613,6 +622,13 @@
         right: 20px;
         bottom: 23px;
       }
+
+      .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
 
       .section,
       .works-section {
