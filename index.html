@@ -166,27 +166,44 @@
       position: relative;
       min-height: 100svh;
       overflow: hidden;
-      background: transparent;
+      background: var(--bg);
     }
 
     .hero-frame {
       position: absolute;
-      top: 14vh;
-      right: 5.5vw;
+
+      top: 50%;
+      left: 50%;
+      right: auto;
+
       width: min(72vw, 1280px);
-      height: min(72vh, 760px);
+      aspect-ratio: 3 / 2;
+
+      transform: translate(-50%, -50%);
+
       overflow: hidden;
-      background: var(--bg-soft);
+      background: #ddd8d0;
     }
 
     .hero-image {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
+      object-position: center center;
+
       opacity: .95;
       transform: scale(1.014);
-      filter: saturate(.88) contrast(.95) brightness(1.01);
-      animation: heroReveal 2.8s cubic-bezier(.2, .65, .25, 1) both;
+
+      filter:
+        saturate(.88)
+        contrast(.95)
+        brightness(1.01);
+
+      animation:
+        heroReveal 2.8s
+        cubic-bezier(.2,.65,.25,1)
+        both;
     }
 
     .hero-frame::after {
@@ -799,23 +816,24 @@
   </header>
 
   <main>
-    <section class="hero" id="top" aria-label="Akira Masaoka">
-      <div class="hero-frame">
-        <img
-          class="hero-image"
-          src="images/IMGP3584.JPG"
-          alt="Akira Masaoka photography"
-        >
-      </div>
+   <section class="hero" id="top" aria-label="Akira Masaoka">
 
-      <div class="hero-title">
-        <p>Photographer · Tokyo</p>
-      </div>
+     <div class="hero-frame">
+       <img
+         class="hero-image"
+         src="images/IMGP3584.JPG"
+         alt="Akira Masaoka photography"
+       >
+     </div>
 
-      <a class="hero-scroll" href="#profile">Scroll</a>
-    </section>
+     <div class="hero-title">
+       <p>Photographer · Tokyo</p>
+     </div>
 
-    <section class="section" id="profile">
+     <a class="hero-scroll" href="#profile">Scroll</a>
+   </section>
+
+   <section class="section" id="profile">
       <div class="section-head reveal">
         <span class="section-index">01</span>
         <h2 class="section-title">Profile</h2>
